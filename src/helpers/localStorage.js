@@ -42,7 +42,7 @@ export function setBuying(ingredients) {
 export function getBuying() {
     const ret = JSON.parse(localStorage.getItem("buying"));
     if (!ret) {
-        return [];
+        return {};
     }
     return ret;
 }

@@ -4,6 +4,8 @@ import store from '../helpers/store';
 import { Checkbox, Card, Row, Col, Badge } from 'antd';
 
 import Recipes from '../data/recipes.json';
+import FloatingCart from './FloatingCart';
+import {getHave, getBuying, setHave} from "../helpers/localStorage";
 
 class List extends Component {
     constructor(props) {
@@ -12,10 +14,14 @@ class List extends Component {
             id: 0,
             recipe: null,
             inCart: [],
+            havingKeywords: [],
+            buyingKeywordsId: [],
             results: [],
             loading: true
         }
         this.state.id = this.props.match.params.id;
+        this.state.havingKeywords = getHave();
+        this.state.buyingKeywordsId = getBuying();
         const recipe = Recipes.find((x) => x.id == this.state.id);
 
         if (recipe != null) {
@@ -48,7 +54,19 @@ class List extends Component {
         this.setState({
             [event.target.value]: event.target.checked
         });
-        console.log(event.target.value);
+
+        let having = this.state.havingKeywords;
+
+        if (event.target.checked) {
+            having.push(event.target.value);
+        } else {
+            having.splice(having.indexOf(event.target.value));
+        }
+
+        this.setState({
+            havingKeywords: having
+        });
+        setHave(this.state.havingKeywords);
     }
 
     handleIngredient(checked, ingredient) {
@@ -56,7 +74,6 @@ class List extends Component {
             // Don't bring the user to the item listing page since have alr
             // Should go to /browse/:ingredient
             this.props.history.push('/browse/' + ingredient);
-            console.log(ingredient);
         }
     }
 
@@ -68,7 +85,6 @@ class List extends Component {
         this.setState({
             inCart: items
         })
-        console.log(this.state.inCart);
     }
 
     async retrieveCartItems() {
@@ -101,8 +117,6 @@ class List extends Component {
             );
         }
 
-        const testData = ["garlic", "rice", "onion"];
-
         return (
             <div>
                 { Object.keys(this.state.recipe.ingredients).map((k) => {
@@ -113,13 +127,13 @@ class List extends Component {
                                     onChange={this.handleChange}
                                     value={k}
                                     style={{ "transform": "scale(1.8)" }}
-                                    disabled={testData.includes(k)}
-                                    defaultChecked={testData.includes(k)}
+                                    disabled={Object.keys(this.state.buyingKeywordsId).includes(k) && this.state.buyingKeywordsId[k].some((x) => this.state.inCart.includes(x))}
+                                    defaultChecked={(Object.keys(this.state.buyingKeywordsId).includes(k) && this.state.buyingKeywordsId[k].some((x) => this.state.inCart.includes(x))) || this.state.havingKeywords.includes(k)}
                                 />
                             </Col>
                             <Col span={1} />
                             <Col flex="auto">
-                                { testData.includes(k) &&
+                                { Object.keys(this.state.buyingKeywordsId).includes(k) && this.state.buyingKeywordsId[k].some((x) => this.state.inCart.includes(x)) &&
                                     <Badge.Ribbon text="Item added to cart" color="#26AA99">
                                         <Card
                                             bodyStyle={{ "font-size": "130%" }}
@@ -130,7 +144,7 @@ class List extends Component {
                                         </Card>
                                     </Badge.Ribbon>
                                 }
-                                { !testData.includes(k) &&
+                                { !(Object.keys(this.state.buyingKeywordsId).includes(k) && this.state.buyingKeywordsId[k].some((x) => this.state.inCart.includes(x))) &&
                                     <Card
                                         bodyStyle={this.state[k] ? { "font-size": "130%", "color": "lightgray" } : { "font-size": "130%" }}
                                         bordered={true}
@@ -143,6 +157,7 @@ class List extends Component {
                         </Row>
                     );
                 })}
+                { <FloatingCart /> }
             </div>
         );
     }

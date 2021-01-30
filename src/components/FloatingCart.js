@@ -1,6 +1,7 @@
 import { Button } from 'antd';
 import { ShoppingCartOutlined } from '@ant-design/icons';
 import React, { Component } from 'react';
+import Bridge from 'libraries/bridges';
 
 class FloatingCart extends Component {
     render() {
@@ -11,7 +12,9 @@ class FloatingCart extends Component {
                 icon={<ShoppingCartOutlined style={{ "font-size": 45, "margin-top": 8, "margin-right": 2, "color": "#FFFFFF" }} />}
                 size="large"
                 style={{"position": "fixed", "bottom": 20, "right": 20, "width": 80, "height": 80, "background-color": "#EE4D2D", "border-color": "#EE4D2D"}}
-                href="hackathon://cart"
+                onClick={() => {
+                    Bridge.openApp("hackathon://cart");
+                }}
             />
         )
     }

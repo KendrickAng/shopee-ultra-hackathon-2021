@@ -4,14 +4,16 @@ import { SET_TITLE, HACKATHON_TOKEN, HACKATHON_USER_TOKEN, HACKATHON_API_ROOT } 
 import store from "../helpers/store";
 
 import { connect } from "react-redux";
-import { Card, Col, Row } from "antd";
+import { Card, Col, Row, Button } from "antd";
 import { addToCart } from "../helpers/actions";
+import Bridge from 'libraries/bridges';
+import {getBuying, setBuying} from "../helpers/localStorage";
 
 const { Meta } = Card;
 
 const cardStyle = {
   width: "100%",
-  height: "350px",
+  height: "410px",
   boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)",
 };
 
@@ -62,12 +64,12 @@ class Browse extends Component {
     this.retrieveSearchApi();
   }
 
-  handleClick = (id) => {
-    this.props.addToCart(id);
-  };
-
-  static getSearchResults(results) {
+  static getSearchResults(results, keyword) {
     const items = results.data.items;
+    let buying = getBuying();
+    buying[keyword] = items.map((item) => item.item_id);
+    setBuying(buying);
+
     return (
       items.map((item) => {
         return (
@@ -75,13 +77,16 @@ class Browse extends Component {
             <Card
               style={cardStyle}
               cover={<img src={item.cover} />}
-              onClick={() => {
-                // this.handleClick(item.id);
-                console.log(item.item_id);
-              }}
               title={item.name}
               extra={"$" + item.price.toFixed(2)}
-            />
+              align="middle"
+            >
+              <Button type="primary" onClick={() => {
+                Bridge.openApp("hackathon://product?shopid=" + item.shop_id + "&itemid=" + item.item_id);
+              }}>
+                View item in store
+              </Button>
+            </Card>
           </Col>
         );
       })
@@ -112,7 +117,7 @@ class Browse extends Component {
   render() {
     let contents = this.state.loading
       ? <p><em>Loading...</em></p>
-      : Browse.getSearchResults(this.state.results);
+      : Browse.getSearchResults(this.state.results, this.state.keyword);
 
     return (
       <div className="site-card-wrapper">
