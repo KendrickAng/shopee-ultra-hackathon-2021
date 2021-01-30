@@ -1,3 +1,5 @@
+@import '~antd/dist/antd.css';
+
 pre {
     white-space: pre-line;
     white-space: pre-wrap;
@@ -5,8 +7,4 @@ pre {
     white-space: -pre-wrap;
     white-space: -o-pre-wrap;
     word-wrap: break-word;
-}
-
-body {
-    padding-top: 55px;
 }

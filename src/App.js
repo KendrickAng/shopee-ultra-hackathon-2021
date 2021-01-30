@@ -1,21 +1,27 @@
 import React, { Component } from 'react';
 import { Route, BrowserRouter, Switch } from 'react-router-dom';
-import { Swipe } from './components/Swipe';
+import { Swipe } from './components/Swipe/Swipe';
 import './App.css';
 
-import Layout from './components/Layout';
+import store from './helpers/store';
+import { setTitle } from './helpers/actions';
+
+import SiteLayout from './components/SiteLayout';
 import Main from './components/Main';
+
+window.store = store;
+window.setTitle = setTitle;
 
 class App extends Component {
     render() {
         return (
             <BrowserRouter>
-                <Layout>
+                <SiteLayout>
                     <Switch>
                         <Route exact path='/' component={Main} />
                         <Route exact path='/swipe' component={Swipe} />
                     </Switch>
-                </Layout>
+                </SiteLayout>
             </BrowserRouter>
         );
     }
