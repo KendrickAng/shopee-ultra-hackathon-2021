@@ -6,32 +6,10 @@ import { HeartTwoTone, CloseCircleTwoTone } from '@ant-design/icons';
 import './Swipe.css';
 import {DIR} from "../../helpers/Swipe";
 import {SET_TITLE} from "../../helpers/constants";
+import recipesDb from '../../data/recipes.json';
+import store from '../../helpers/store';
 
 const { Paragraph } = Typography;
-
-// Recipe database
-const recipesDb = [
-    {
-        id: '1',
-        title: "Chicken rice",
-        category: "chinese",
-        ingredients: {
-            "fresh chicken": "1kr whole chicken",
-        },
-        steps: "Cook chicken. Cook rice. Serve.",
-        image: '/img/food1.jpg',
-    },
-    {
-        id: '2',
-        title: "Duck rice",
-        category: "chinese",
-        ingredients: {
-            "fresh duck": "1kg whole duck",
-        },
-        steps: "Cook duck. Cook rice. Serve.",
-        image: '/img/food2.jpg',
-    }
-]
 
 // TODO temporary test local storage
 const localStorage = {
@@ -53,7 +31,7 @@ const styles = {
         height: '400px',
     },
     cardBody: {
-        maxHeight: '10vh',
+        maxHeight: '20vh',
         width: '100%',
         overflow: 'auto'
     },
@@ -70,6 +48,7 @@ const Swipe = () => {
     const [recipes, setRecipes] = useState(recipesDb);
     const [lastChoice, setLastChoice] = useState("");
 
+    // Set navbar title
     useEffect(() => {
         store.dispatch({
             type: SET_TITLE,
@@ -94,6 +73,7 @@ const Swipe = () => {
             default:
                 console.log(`Unhandled swipe direction ${dir}`);
         }
+        console.log(localStorage)
     };
 
     const outOfFrame =(rid) => {
@@ -103,9 +83,8 @@ const Swipe = () => {
     const swipe = (dir) => {
         const recipesLeft = recipes.filter(r => !localStorage.rejected.includes(r.id));
         if (recipesLeft.length > 0) {
-            const idToRemove = recipesLeft[recipesLeft.length - 1].id;
-            const idx = recipes.map(r => r.id).indexOf(idToRemove);
-            localStorage.rejected.push(idToRemove)
+            const recipeToRemove = recipesLeft[recipesLeft.length - 1];
+            const idx = recipes.map(r => r.id).indexOf(recipeToRemove.id);
             childRefs[idx].current.swipe(dir);
         }
     };
@@ -136,7 +115,7 @@ const Swipe = () => {
                     })}
                 </div>
                 <Space style={styles.btnRow} align="center">
-                    <Button icon={<CloseCircleTwoTone twoToneColor="#52c41a"/>}
+                    <Button icon={<CloseCircleTwoTone/>}
                             shape="circle"
                             size="large"
                             onClick={() => swipe(DIR.LEFT)}/>

@@ -1,4 +1,4 @@
-export const RECIPES = [
+[
     {
         "id": 1,
         "title": "Hainanese Chicken Rice",
