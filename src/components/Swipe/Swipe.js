@@ -151,6 +151,8 @@ const Swipe = () => {
             {/*Modal*/}
             <Modal
                 visible={isFiltersOpen}
+                onOk={() => setFiltersOpen(false)}
+                onCancel={() => setFiltersOpen(false)}
                 title="Title"
             >
                 <p>Some contents...</p>
