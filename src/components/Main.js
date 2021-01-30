@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { SET_TITLE } from '../helpers/constants';
 import store from '../helpers/store';
+import SavedRecipes from './SavedRecipes';
 
 class Main extends Component {
     constructor(props) {
@@ -14,7 +15,7 @@ class Main extends Component {
     render() {
         return (
             <div>
-                Main body
+                <SavedRecipes/>
             </div>
         );
     }

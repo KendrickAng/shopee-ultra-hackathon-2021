@@ -7,6 +7,7 @@ import { setTitle } from './helpers/actions';
 
 import SiteLayout from './components/SiteLayout';
 import Main from './components/Main';
+import Saved_Recipes from './components/SavedRecipes';
 
 window.store = store;
 window.setTitle = setTitle;
@@ -18,6 +19,7 @@ class App extends Component {
                 <SiteLayout>
                     <Switch>
                         <Route exact path='/' component={Main} />
+                        <Route path='/components/Saved_recipes' component={Saved_Recipes}/>
                     </Switch>
                 </SiteLayout>
             </BrowserRouter>

@@ -5,7 +5,7 @@ import { withRouter } from 'react-router';
 
 import NavTitle from './NavTitle';
 
-const { Header, Content, Footer } = Layout;
+const {  Content, } = Layout;
 
 class SiteLayout extends Component {
     render() {
@@ -13,7 +13,7 @@ class SiteLayout extends Component {
             <Layout className="layout">
                 <Menu style={{ "background-color": "#EE4D2D", "color": "#ffffff" }} mode="horizontal">
                     <Row style={{ padding: '0 2em' }}>
-                        <Col span={8}>{ this.props.location.pathname != '/' && <Menu.Item icon={<ArrowLeftOutlined />} onClick={this.props.history.goBack}> Back</Menu.Item> }</Col>
+                        <Col span={8}>{ this.props.location.pathname !== '/' && <Menu.Item icon={<ArrowLeftOutlined />} onClick={this.props.history.goBack}> Back</Menu.Item> }</Col>
                         <Col span={8}><NavTitle /></Col>
                         <Col span={8}></Col>
                     </Row>
