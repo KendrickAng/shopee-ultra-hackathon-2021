@@ -14,24 +14,27 @@ import SavedRecipes from "components/SavedRecipes";
 import Steps from "components/Steps";
 import Browse from "components/Browse";
 import Cart from "components/Cart";
+import {Component} from "react";
 
-function App() {
-    return (
-        <Router>
-            <SiteLayout>
-                <Switch>
-                    <Route exact path="/" component={SavedRecipes} />
-                    <Route exact path="/swipe" component={Swipe} />
-                    <Route path="/shop/:id" component={List} />
-                    <Route path="/view/:id" component={Steps} />
-                    <Route path="/browse/:keyword" component={Browse} />
-                    <Route path="/cart" component={Cart} />
-                    {/* Remove the demo route if your app is ready! */}
-                    <Route path='/demo' component={Demo}/>
-                </Switch>
-            </SiteLayout>
-        </Router>
-    );
+class App extends Component {
+    render() {
+        return (
+            <Router>
+                <SiteLayout>
+                    <Switch>
+                        <Route exact path="/" component={SavedRecipes}/>
+                        <Route exact path="/swipe" component={Swipe}/>
+                        <Route path="/shop/:id" component={List}/>
+                        <Route path="/view/:id" component={Steps}/>
+                        <Route path="/browse/:keyword" component={Browse}/>
+                        <Route path="/cart" component={Cart}/>
+                        {/* Remove the demo route if your app is ready! */}
+                        <Route path='/demo' component={Demo}/>
+                    </Switch>
+                </SiteLayout>
+            </Router>
+        )
+    }
 }
 
 export default hot(App);

@@ -12,11 +12,10 @@ class List extends Component {
             id: 0,
             recipe: null
         }
-
         this.state.id = this.props.match.params.id;
-        const recipe = Recipes.find((x) => x.id === this.state.id);
+        const recipe = Recipes.find((x) => x.id == this.state.id);
 
-        if (recipe !== null) {
+        if (recipe != null) {
             this.state.recipe = recipe;
 
             store.dispatch({
