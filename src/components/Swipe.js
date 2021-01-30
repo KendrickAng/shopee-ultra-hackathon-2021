@@ -5,7 +5,7 @@ import TinderCard from 'react-tinder-card';
 const recipes = [
     {
         id: '1',
-        image: '/img/food1.jpg',
+        img: '/img/food1.jpg',
         text: {
             title: 'Chicken rice',
             steps: ['Place rice in cooker', 'Done!'],
@@ -14,7 +14,7 @@ const recipes = [
     },
     {
         id: '2',
-        image: '/img/food2.jpg',
+        img: '/img/food2.jpg',
         text: {
             title: 'Duck rice',
             steps: ['Hunt duck', 'Cook rice', 'Done!'],
@@ -26,9 +26,27 @@ const recipes = [
 const Swipe = () => {
     return (
         <>
-            {recipes.map(recipe => {
-                return <div>hello</div>
+            {recipes.map((recipe, idx) => {
+                return (
+                    <TinderCard className='swipe'
+                                key={recipe.id}
+                                onSwipe={(dir) => console.log(`Swiped ${dir}`)}
+                                onCardLeftScreen={() => console.log('Card left screen!')}
+                    >
+                        <div style={{
+                            backgroundImage: 'url(' + recipe.img + ')',
+                            width: 500,
+                            height: 500,
+                        }} className='card'>
+                            <h3>{recipe.text.title}</h3>
+                        </div>
+                    </TinderCard>
+                )
             })}
+            <div className='buttons'>
+                <button onClick={() => console.log('Swiped current card left!')}>Swipe Left!</button>
+                <button onClick={() => console.log('Swiped current card right!')}>Swipe Right!</button>
+            </div>
         </>
     )
 }
