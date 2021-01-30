@@ -4,7 +4,6 @@ import { ArrowLeftOutlined } from "@ant-design/icons";
 import { withRouter } from "react-router";
 
 import NavTitle from "./NavTitle";
-import FloatingCart from "./FloatingCart";
 
 const {  Content, } = Layout;
 
@@ -41,7 +40,6 @@ class SiteLayout extends Component {
           </Row>
         </Menu>
         <Content style={{ padding: "0 2em" }}>{this.props.children}</Content>
-        <FloatingCart />
       </Layout>
     );
   }

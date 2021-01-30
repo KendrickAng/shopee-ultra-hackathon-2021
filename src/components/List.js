@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { SET_TITLE } from '../helpers/constants';
+import { SET_TITLE, HACKATHON_TOKEN, HACKATHON_USER_TOKEN, HACKATHON_API_ROOT } from '../helpers/constants';
 import store from '../helpers/store';
 import { Checkbox, Card, Row, Col, Badge } from 'antd';
 
@@ -10,7 +10,10 @@ class List extends Component {
         super(props);
         this.state = {
             id: 0,
-            recipe: null
+            recipe: null,
+            inCart: [],
+            results: [],
+            loading: true
         }
 
         this.state.id = this.props.match.params.id;
@@ -38,6 +41,10 @@ class List extends Component {
         this.handleIngredient = this.handleIngredient.bind(this);
     }
 
+    componentDidMount() {
+        this.retrieveCartItems().then(() => this.getItemsInCart());
+    }
+
     handleChange(event) {
         this.setState({
             [event.target.value]: event.target.checked
@@ -52,6 +59,38 @@ class List extends Component {
             this.props.history.push('/browse/' + ingredient);
             console.log(ingredient);
         }
+    }
+
+    getItemsInCart() {
+        const items = this.state.results.data.items;
+        items.forEach((item) => {
+            return item.item_id;
+        })
+        this.setState({
+            inCart: items
+        })
+        console.log(this.state.inCart);
+    }
+
+    async retrieveCartItems() {
+        const headers = {
+            "x-hackathon-token": HACKATHON_TOKEN,
+            "x-user-token": HACKATHON_USER_TOKEN
+        }
+        const requestOptions = { method: 'GET', headers: headers }
+        const response = await fetch(HACKATHON_API_ROOT + '/user/get_cart_items', requestOptions).then((res) => {
+            return res.text().then(text => {
+                const data = text && JSON.parse(text);
+
+                if (!res.ok) {
+                    const error = (data && data.message) || res.statusText;
+                    return Promise.reject(error);
+                }
+
+                return data;
+            });
+        });
+        this.setState({ results: response, loading: false });
     }
 
     render() {

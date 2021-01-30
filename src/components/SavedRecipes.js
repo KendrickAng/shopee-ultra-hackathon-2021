@@ -5,6 +5,7 @@ import store from '../helpers/store';
 import recipe from '../data/recipes.json';
 import {UnorderedListOutlined} from '@ant-design/icons';
 import FittedImage from 'react-fitted-image';
+import FloatingAddRecipes from './FloatingAddRecipes';
 
 class SavedRecipes extends Component {
   constructor(props) {
@@ -17,47 +18,47 @@ class SavedRecipes extends Component {
 
   render() {
     return (
-      <List
-      grid={{
-        gutter: 8,
-        column: 1,
-      }}
-        dataSource={recipe}
-        renderItem={recipe => (
-          <List.Item>
-            <Row style={rowStyle}>
-              <Col span={8} style={colStyle}>
-                <FittedImage
-                  fit="cover"
-                  style = {imageStyle}
-                  src={recipe.image}
-                />
-              </Col>
+      <div>
+        <List
+        grid={{
+          gutter: 8,
+          column: 1,
+        }}
+          dataSource={recipe}
+          renderItem={recipe => (
+            <List.Item>
+              <Row style={rowStyle}>
+                <Col span={8} style={colStyle}>
+                  <FittedImage
+                    fit="cover"
+                    style = {imageStyle}
+                    src={recipe.image}
+                  />
+                </Col>
 
-              <Col span={14} style={colStyle}>
-                <Card style={titleStyle}  hoverable={true}
-                onClick={() => {
-                  this.props.history.push('/view/' + recipe.id);
-                  }}>
-                  <b>
-                    {recipe.title}
-                  </b>
-                </Card>
-              </Col>
-
-              <Col span={2}>
-                <UnorderedListOutlined style={iconStyle}
+                <Col span={14} style={colStyle}>
+                  <Card style={titleStyle}  hoverable={true}
                   onClick={() => {
-                    this.props.history.push('/shop/' + recipe.id);
-                    }} />
-              </Col>
-            </Row>
+                    this.props.history.push('/view/' + recipe.id);
+                    }}>
+                    <b>
+                      {recipe.title}
+                    </b>
+                  </Card>
+                </Col>
 
-          </List.Item>
-
-
-        )}
-      />
+                <Col span={2}>
+                  <UnorderedListOutlined style={iconStyle}
+                    onClick={() => {
+                      this.props.history.push('/shop/' + recipe.id);
+                      }} />
+                </Col>
+              </Row>
+            </List.Item>
+          )}
+        />
+        <FloatingAddRecipes />
+      </div>
     );
   }
 }
