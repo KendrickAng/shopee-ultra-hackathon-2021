@@ -9,14 +9,9 @@ import {SET_TITLE} from "../../helpers/constants";
 import recipesDb from '../../data/recipes.json';
 import store from '../../helpers/store';
 import {FilterButton} from "./common/FilterButton";
+import {getDisliked, getLiked, setDisliked, setLiked} from "../../helpers/localStorage";
 
 const { Paragraph } = Typography;
-
-// TODO temporary test local storage
-const localStorage = {
-    selected: [],
-    rejected: [],
-}
 
 const styles = {
     cardContainer: {
@@ -74,25 +69,24 @@ const Swipe = () => {
     const handleSwipe = (dir, recipe) => {
         switch(dir) {
             case DIR.LEFT:
-                localStorage.rejected.push(recipe.id);
+                setDisliked([...(new Set(getDisliked().filter(x => x))), recipe.id]);
                 setLastChoice(`Rejected ${recipe.title}`);
                 break;
             case DIR.RIGHT:
-                localStorage.selected.push(recipe.id);
+                setLiked([...(new Set(getLiked().filter(x => x))), recipe.id]);
                 setLastChoice(`Saved ${recipe.title}`);
                 break;
             default:
                 console.log(`Unhandled swipe direction ${dir}`);
         }
-        console.log(localStorage)
     };
 
-    const outOfFrame =(rid) => {
-        setRecipes(recipes.filter(r => r.id !== rid));
+    const outOfFrame = (rid) => {
+        setRecipes(recipes.filter(r => r.id != rid));
     };
 
     const swipe = (dir) => {
-        const recipesLeft = recipes.filter(r => !localStorage.rejected.includes(r.id));
+        const recipesLeft = recipes.filter(r => !getDisliked().includes(r.id));
         if (recipesLeft.length > 0) {
             const recipeToRemove = recipesLeft[recipesLeft.length - 1];
             const idx = recipes.map(r => r.id).indexOf(recipeToRemove.id);
@@ -155,7 +149,7 @@ const Swipe = () => {
                 visible={isFiltersOpen}
                 onOk={() => setFiltersOpen(false)}
                 onCancel={() => setFiltersOpen(false)}
-                title="Title"
+                title="Filter recipe categories"
             >
                 <Row>
                     {[...new Set(recipes.map(r => r.category))].map((category) => {
