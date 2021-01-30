@@ -13,7 +13,7 @@ class Steps extends Component {
         recipe: null
     }
     this.state.id = this.props.match.params.id;
-    const recipe = Recipes.find(x => x.id === this.state.id);
+    const recipe = Recipes.find(x => x.id == this.state.id);
 
     if (recipe != null) {
         this.state.recipe = recipe;
