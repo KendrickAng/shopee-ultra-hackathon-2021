@@ -12,8 +12,11 @@ class SiteLayout extends Component {
     return (
       <Layout className="layout">
         <Menu
-          style={{ "background-color": "#EE4D2D", color: "#ffffff" }}
           mode="horizontal"
+          style={{
+            "background-color": "#EE4D2D",
+            color: "#ffffff",
+          }}
         >
           <Row style={{ padding: "0 2em" }}>
             <Col span={8}>

@@ -1,9 +1,12 @@
 import React, { Component } from "react";
+// import consts from "../../consts";
+// import { get } from "./libraries/utils/fetch";
+
 import { SET_TITLE } from "../helpers/constants";
 import store from "../helpers/store";
-// import { get } from "libraries/utils/fetch";
+
 import { connect } from "react-redux";
-import { Card, Col, Row, Space } from "antd";
+import { Card, Col, Row } from "antd";
 
 const { Meta } = Card;
 
@@ -12,11 +15,6 @@ const inputIgredient = "Chicken";
 const cardStyle = {
   width: "100%",
   height: "350px",
-  //   position: [, 0, 0, 0],
-  //   borderRadius: "16px",
-  //   marginLeft: "-15px",
-  //   marginTop: "15px",
-  //   marginRight: "15px",
   boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)",
 };
 
@@ -53,7 +51,6 @@ class Browse extends Component {
   render() {
     return (
       <div className="site-card-wrapper">
-        {/* <Space size={1}> */}
         <Row
           gutter={[20, 20]}
           style={{ marginLeft: "-5%", marginTop: "3%", marginRight: "-5%" }}
@@ -66,7 +63,6 @@ class Browse extends Component {
             </Col>
           ))}
         </Row>
-        {/* </Space> */}
       </div>
     );
   }
