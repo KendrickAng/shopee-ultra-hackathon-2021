@@ -1,14 +1,16 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 
-import React, {useMemo, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import TinderCard from './common/ReactTinderCard';
 import {Container} from './common/Container';
 import {Card, Button, Typography, Space, List, Modal} from 'antd';
 import {HeartTwoTone, CloseCircleTwoTone, FilterTwoTone} from '@ant-design/icons';
 import './Swipe.css';
 import {DIR} from "../../helpers/Swipe";
+import store from '../../helpers/store';
 import recipesDb from 'data/recipes.json'
+import {SET_TITLE} from "../../helpers/constants";
 
 const {Paragraph} = Typography;
 
@@ -68,6 +70,14 @@ const Swipe = () => {
     const [isFiltersOpen, setFiltersOpen] = useState(false);
     const [recipes, setRecipes] = useState(recipesDb);
     const [lastChoice, setLastChoice] = useState("");
+
+    // Set navbar title
+    useEffect(() => {
+        store.dispatch({
+            type: SET_TITLE,
+            payload: "Recipes"
+        })
+    }, [])
 
     const childRefs = useMemo(() => {
         return Array(recipes.length).fill(0).map(i => React.createRef())

@@ -9,8 +9,8 @@ import {Provider} from 'react-redux';
 
 import {ENVIRONMENT} from 'env';
 
-import {store} from 'data/store';
-import history from 'data/history';
+import store from 'helpers/store';
+import history from 'helpers/history';
 
 import App from './components/App';
 
@@ -24,9 +24,9 @@ if (ENVIRONMENT === 'DEV') {
 
 render(
     <Provider store={store}>
-        <Router history={history}>
-            <App/>
-        </Router>
+        <React.StrictMode>
+            <App />
+        </React.StrictMode>
     </Provider>,
-    document.getElementById('app')
+    document.getElementById("app")
 );
