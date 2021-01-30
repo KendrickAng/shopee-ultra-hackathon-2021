@@ -3,20 +3,38 @@ import { List,Card, Row,Col} from 'antd';
 import { SET_TITLE } from '../helpers/constants';
 import store from '../helpers/store';
 import recipe from '../data/recipes.json';
-import {UnorderedListOutlined} from '@ant-design/icons';
+import {UnorderedListOutlined, DeleteOutlined} from '@ant-design/icons';
 import FittedImage from 'react-fitted-image';
 import FloatingAddRecipes from './FloatingAddRecipes';
+import {getDisliked, getLiked, setDisliked, setLiked} from "../helpers/localStorage";
 
 class SavedRecipes extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      dislikedId: [],
+      likedId: []
+    }
     store.dispatch({
       type: SET_TITLE,
       payload: "Saved Recipes"
     })
+    this.state.dislikedId = getDisliked();
+    this.state.likedId = getLiked();
   }
 
   render() {
+    const likedRecipes = recipe.filter((x) => this.state.likedId.includes(x.id));
+
+    if (likedRecipes.length == 0) {
+      return (
+        <div>
+          <p>No recipes yet, press the "+" button below to start browsing!</p>
+          <FloatingAddRecipes />
+        </div>
+      );
+    }
+
     return (
       <div>
         <List
@@ -24,7 +42,7 @@ class SavedRecipes extends Component {
           gutter: 8,
           column: 1,
         }}
-          dataSource={recipe}
+          dataSource={likedRecipes}
           renderItem={recipe => (
             <List.Item>
               <Row style={rowStyle}>
@@ -48,10 +66,27 @@ class SavedRecipes extends Component {
                 </Col>
 
                 <Col span={2}>
-                  <UnorderedListOutlined style={iconStyle}
-                    onClick={() => {
-                      this.props.history.push('/shop/' + recipe.id);
+                  <Row style={rowStyleHalf}>
+                    <UnorderedListOutlined style={iconStyle}
+                      onClick={() => {
+                        this.props.history.push('/shop/' + recipe.id);
+                        }} />
+                  </Row>
+                  <Row style={rowStyleHalf}>
+                    <DeleteOutlined style={iconStyle}
+                      onClick={() => {
+                        let newLikes = this.state.likedId;
+                        let newDislikes = this.state.dislikedId;
+                        newLikes.splice(newLikes.indexOf(recipe.id));
+                        newDislikes.push(recipe.id);
+                        this.setState({
+                          likedId: newLikes,
+                          dislikedId: newDislikes
+                        });
+                        setLiked(newLikes);
+                        setDisliked(newDislikes);
                       }} />
+                  </Row>
                 </Col>
               </Row>
             </List.Item>
@@ -64,6 +99,9 @@ class SavedRecipes extends Component {
 }
 const rowStyle ={
   height: "150px"
+}
+const rowStyleHalf ={
+  height: "75px"
 }
 const colStyle ={
   height: "150px"
