@@ -22,11 +22,10 @@ class App extends Component {
       <BrowserRouter>
         <SiteLayout>
           <Switch>
-            <Route exact path="/" component={Main} />
+            <Route exact path="/" component={SavedRecipes} />
             <Route exact path="/swipe" component={Swipe} />
             <Route path="/shop/:id" component={List} />
-            <Route path="/components/Savedrecipes" component={SavedRecipes} />
-            <Route path="/components/Steps" component={Steps} />
+            <Route path="/view/:id" component={Steps} />
             <Route exact path="/browse" component={Browse} />
           </Switch>
         </SiteLayout>
