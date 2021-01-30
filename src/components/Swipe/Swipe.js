@@ -1,13 +1,14 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import TinderCard from './common/ReactTinderCard';
 import { Container } from './common/Container';
-import {Card, Button, Typography, Space, List, Modal} from 'antd';
+import {Card, Button, Typography, Space, List, Modal, Row, Col} from 'antd';
 import { HeartTwoTone, CloseCircleTwoTone, FilterTwoTone } from '@ant-design/icons';
 import './Swipe.css';
 import {DIR} from "../../helpers/Swipe";
 import {SET_TITLE} from "../../helpers/constants";
 import recipesDb from '../../data/recipes.json';
 import store from '../../helpers/store';
+import {FilterButton} from "./common/FilterButton";
 
 const { Paragraph } = Typography;
 
@@ -53,6 +54,7 @@ const styles = {
 }
 
 const Swipe = () => {
+    const [filters, setFilters] = useState({});
     const [isFiltersOpen, setFiltersOpen] = useState(false);
     const [recipes, setRecipes] = useState(recipesDb);
     const [lastChoice, setLastChoice] = useState("");
@@ -101,7 +103,7 @@ const Swipe = () => {
     return (
         <Container>
             <div style={styles.cardContainer}>
-                {recipes.map((recipe, idx) => {
+                {recipes.filter(r => !filters[r.category]).map((recipe, idx) => {
                     return (
                         <TinderCard ref={childRefs[idx]}
                                     className='swipe'
@@ -155,11 +157,13 @@ const Swipe = () => {
                 onCancel={() => setFiltersOpen(false)}
                 title="Title"
             >
-                <p>Some contents...</p>
-                <p>Some contents...</p>
-                <p>Some contents...</p>
-                <p>Some contents...</p>
-                <p>Some contents...</p>
+                <Row>
+                    {[...new Set(recipes.map(r => r.category))].map((category) => {
+                        return <Col span={12}>
+                            <FilterButton category={category} filters={filters} setFilters={setFilters} />
+                        </Col>
+                    })}
+                </Row>
             </Modal>
         </Container>
     )
