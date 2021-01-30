@@ -7,7 +7,8 @@ import { setTitle } from './helpers/actions';
 
 import SiteLayout from './components/SiteLayout';
 import Main from './components/Main';
-import Saved_Recipes from './components/SavedRecipes';
+import SavedRecipes from './components/SavedRecipes';
+import  Steps from './components/Steps';
 
 window.store = store;
 window.setTitle = setTitle;
@@ -19,7 +20,8 @@ class App extends Component {
                 <SiteLayout>
                     <Switch>
                         <Route exact path='/' component={Main} />
-                        <Route path='/components/Saved_recipes' component={Saved_Recipes}/>
+                        <Route path='/components/Savedrecipes' component={SavedRecipes}/>
+                        <Route path='/components/Steps' component={Steps}/>
                     </Switch>
                 </SiteLayout>
             </BrowserRouter>

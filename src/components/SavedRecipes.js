@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { List,Card, Row,Col,Image,Divider} from 'antd';
+import { List,Card, Row,Col} from 'antd';
 import { SET_TITLE } from '../helpers/constants';
 import store from '../helpers/store';
 import recipe from '../data/recipes.json';
@@ -103,20 +103,20 @@ const imageStyle = {
   hoverable: "true",
 };
 
-const textStyle = {
-  height: "0%",
-  width: "100%",
-  shape: "cicle",
-  background: '#ee4d2d',
-  fontSize: '100%',
-  margin: '10px',
-  border: '0px solid black',
-  padding: '10px',
-  alignment: 'center',
-  bordered: "true",
-  borderColor: "black",
-  hoverable: "true",
-};
+// const textStyle = {
+//   height: "0%",
+//   width: "100%",
+//   shape: "cicle",
+//   background: '#ee4d2d',
+//   fontSize: '100%',
+//   margin: '10px',
+//   border: '0px solid black',
+//   padding: '10px',
+//   alignment: 'center',
+//   bordered: "true",
+//   borderColor: "black",
+//   hoverable: "true",
+// };
 
 const iconStyle = {
   height: "100%",
