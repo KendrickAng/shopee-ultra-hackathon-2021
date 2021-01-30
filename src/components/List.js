@@ -49,6 +49,7 @@ class List extends Component {
         if (!checked) {
             // Don't bring the user to the item listing page since have alr
             // Should go to /browse/:ingredient
+            this.props.history.push('/browse/' + ingredient);
             console.log(ingredient);
         }
     }

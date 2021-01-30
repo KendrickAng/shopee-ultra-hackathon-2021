@@ -27,7 +27,7 @@ class App extends Component {
             <Route exact path="/swipe" component={Swipe} />
             <Route path="/shop/:id" component={List} />
             <Route path="/view/:id" component={Steps} />
-            <Route exact path="/browse" component={Browse} />
+            <Route path="/browse/:keyword" component={Browse} />
             <Route path="/cart" component={Cart} />
           </Switch>
         </SiteLayout>

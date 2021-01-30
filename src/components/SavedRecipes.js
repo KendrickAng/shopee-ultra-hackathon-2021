@@ -6,10 +6,6 @@ import recipe from '../data/recipes.json';
 import {UnorderedListOutlined} from '@ant-design/icons';
 import FittedImage from 'react-fitted-image';
 
-
-
-
-
 class SavedRecipes extends Component {
   constructor(props) {
     super(props);
@@ -36,39 +32,30 @@ class SavedRecipes extends Component {
                   style = {imageStyle}
                   src={recipe.image}
                 />
-            
-       
               </Col>
-              
+
               <Col span={14} style={colStyle}>
-             
-              <Card style={titleStyle}  hoverable={true} 
-              onClick={() => {
-                console.log('Hello');
-                }}>
-              <p>
-                <b>
-              {recipe.title}
-              </b>
-              </p>             
-              </Card>
+                <Card style={titleStyle}  hoverable={true}
+                onClick={() => {
+                  this.props.history.push('/view/' + recipe.id);
+                  }}>
+                  <b>
+                    {recipe.title}
+                  </b>
+                </Card>
               </Col>
 
               <Col span={2}>
-             
-              <UnorderedListOutlined style={iconStyle} 
-              onClick={() => {
-                console.log('Hello');
-                }}>
-                  </UnorderedListOutlined>
-      
-              
+                <UnorderedListOutlined style={iconStyle}
+                  onClick={() => {
+                    this.props.history.push('/shop/' + recipe.id);
+                    }} />
               </Col>
             </Row>
 
           </List.Item>
 
-          
+
         )}
       />
     );
@@ -121,15 +108,16 @@ const imageStyle = {
 const iconStyle = {
   height: "100%",
   width: "100%",
-  shape: "cicle",
+  shape: "circle",
   background: '#ee4d2d',
-  fontSize: '200%',
+  fontSize: '180%',
   margin: '10px',
-  border: '0px solid black',
+  border: '0px solid white',
   padding: '10px',
   alignment: 'center',
   bordered: "true",
-  borderColor: "black",
+  borderColor: "white",
+  color: "white",
   hoverable: "true",
 };
 export default SavedRecipes;

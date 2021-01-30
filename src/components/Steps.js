@@ -49,48 +49,48 @@ render() {
   return (
       <div>
           <Col align="middle" style={colStyle}>
-          <FittedImage 
+          <FittedImage
             fit="cover"
             style = {imageStyle}
             src={this.state.recipe.image}
           />
-          <Card 
+          <Card
             align="left"
-            title = "Ingredients"  
+            title = "Ingredients"
+            extra={<Button type="primary" style ={butStyle} size="large" onClick={() => this.props.history.push('/shop/' + this.state.id)}>Purchase ingredients with Shopee</Button>}
             bodyStyle={{ "font-size": "100%" }}
             bordered={true}>
           { Object.keys(this.state.recipe.ingredients).map((k) => {
-            
+
                     return (
                         <Row align="middle">
                             <Col flex="auto">
                             <ul>
                               <li>{ this.state.recipe.ingredients[k] }</li>
-                            </ul>                               
+                            </ul>
                             </Col>
                         </Row>
                     );
                 })}
             </Card>
-            <Card 
+            <Card
             align="left"
-            title = "Steps"  
+            title = "Steps"
             bodyStyle={{ "font-size": "100%" }}
             bordered={true}>
           { this.state.recipe.steps.split("\n").map(step=> {
-            
+
                     return (
                         <Row align="middle">
                             <Col flex="auto">
-                            
+
                               <p>{ step }</p>
-                                                         
+
                             </Col>
                         </Row>
                     );
                 })}
             </Card>
-            <Button type="primary" style ={butStyle}>View List</Button>
           </Col>
       </div>
   );
@@ -98,10 +98,9 @@ render() {
 }
 
 const butStyle ={
-  margin: '2px',
-  padding: '2px',
   align: 'middle',
-  background: "#EE4D2D",
+  backgroundColor: "#EE4D2D",
+  borderColor: "#EE4D2D",
   hoverable: "true",
 }
 const colStyle ={
