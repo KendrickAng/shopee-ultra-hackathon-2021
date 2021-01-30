@@ -1,38 +1,44 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import { SET_TITLE, HACKATHON_TOKEN, HACKATHON_USER_TOKEN, HACKATHON_API_ROOT } from "../helpers/constants";
-import store from "../helpers/store";
+import {
+  SET_TITLE,
+  HACKATHON_TOKEN,
+  HACKATHON_USER_TOKEN,
+  HACKATHON_API_ROOT,
+} from '../helpers/constants';
+import store from '../helpers/store';
 
-import { connect } from "react-redux";
-import { Card, Col, Row, Button } from "antd";
-import { addToCart } from "../helpers/actions";
+import { connect } from 'react-redux';
+import { Card, Col, Row, Button } from 'antd';
+import { addToCart } from '../helpers/actions';
 import Bridge from 'libraries/bridges';
-import {getBuying, setBuying} from "../helpers/localStorage";
+import { getBuying, setBuying } from '../helpers/localStorage';
 
 const { Meta } = Card;
 
 const cardStyle = {
-  width: "100%",
-  height: "410px",
-  boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)",
+  width: '100%',
+  height: '410px',
+  boxShadow: '5px 8px 24px 5px rgba(208, 216, 243, 0.6)',
+  lineHeight: '15px',
 };
 
 const siteCardStyle = {
-  marginLeft: "-5%",
-  marginTop: "3%",
-  marginRight: "-5%",
+  marginLeft: '-5%',
+  marginTop: '3%',
+  marginRight: '-5%',
 };
 
 const iconStyle = {
-  height: "100%",
-  width: "100%",
+  height: '100%',
+  width: '100%',
   // shape: "cicle",
   // background: "#ee4d2d",
-  fontSize: "200%",
+  fontSize: '200%',
   // marginTop: "-50%",
   // border: "0px solid black",
   // padding: "10px",
-  alignment: "right",
+  alignment: 'right',
   // bordered: "true",
   // borderColor: "black",
   // hoverable: "true",
@@ -41,22 +47,24 @@ class Browse extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      keyword: "",
+      keyword: '',
       results: [],
-      loading: true
-    }
+      loading: true,
+    };
     this.state.keyword = this.props.match.params.keyword;
 
-    var keywordCaps = "";
+    var keywordCaps = '';
     if (this.state.keyword.length == 1) {
       keywordCaps = this.state.keyword.toUpperCase();
     } else if (this.state.keyword.length > 1) {
-      keywordCaps = this.state.keyword.charAt(0).toUpperCase() + this.state.keyword.slice(1);
+      keywordCaps =
+        this.state.keyword.charAt(0).toUpperCase() +
+        this.state.keyword.slice(1);
     }
 
     store.dispatch({
       type: SET_TITLE,
-      payload: keywordCaps
+      payload: keywordCaps,
     });
   }
 
@@ -70,37 +78,59 @@ class Browse extends Component {
     buying[keyword] = items.map((item) => item.item_id);
     setBuying(buying);
 
-    return (
-      items.map((item) => {
-        return (
-          <Col span={12}>
-            <Card
-              style={cardStyle}
-              cover={<img src={item.cover} />}
-              title={item.name}
-              extra={"$" + item.price.toFixed(2)}
-              align="middle"
+    return items.map((item) => {
+      return (
+        <Col span={12}>
+          <Card
+            style={cardStyle}
+            cover={<img src={item.cover} />}
+            // title={item.name}
+            extra={'$' + item.price.toFixed(2)}
+            align='middle'
+          >
+            <Button
+              type='primary'
+              onClick={() => {
+                Bridge.openApp(
+                  'hackathon://product?shopid=' +
+                    item.shop_id +
+                    '&itemid=' +
+                    item.item_id
+                );
+              }}
             >
-              <Button type="primary" onClick={() => {
-                Bridge.openApp("hackathon://product?shopid=" + item.shop_id + "&itemid=" + item.item_id);
-              }}>
-                View item in store
-              </Button>
-            </Card>
-          </Col>
-        );
-      })
-    )
+              View item in store
+            </Button>
+            <h4
+              style={{
+                lineHeight: '15px',
+                marginTop: '10%',
+                textAlign: 'left',
+                fontSize: '14px',
+              }}
+            >
+              {item.name}
+            </h4>
+            {/* <Meta title={item.name} /> */}
+          </Card>
+        </Col>
+      );
+    });
   }
 
   async retrieveSearchApi() {
     const headers = {
-      "x-hackathon-token": HACKATHON_TOKEN,
-      "x-user-token": HACKATHON_USER_TOKEN
-    }
-    const requestOptions = { method: 'GET', headers: headers }
-    const response = await fetch(HACKATHON_API_ROOT + '/item/search?keyword=' + encodeURIComponent(this.state.keyword), requestOptions).then((res) => {
-      return res.text().then(text => {
+      'x-hackathon-token': HACKATHON_TOKEN,
+      'x-user-token': HACKATHON_USER_TOKEN,
+    };
+    const requestOptions = { method: 'GET', headers: headers };
+    const response = await fetch(
+      HACKATHON_API_ROOT +
+        '/item/search?keyword=' +
+        encodeURIComponent(this.state.keyword),
+      requestOptions
+    ).then((res) => {
+      return res.text().then((text) => {
         const data = text && JSON.parse(text);
 
         if (!res.ok) {
@@ -115,12 +145,16 @@ class Browse extends Component {
   }
 
   render() {
-    let contents = this.state.loading
-      ? <p><em>Loading...</em></p>
-      : Browse.getSearchResults(this.state.results, this.state.keyword);
+    let contents = this.state.loading ? (
+      <p>
+        <em>Loading...</em>
+      </p>
+    ) : (
+      Browse.getSearchResults(this.state.results, this.state.keyword)
+    );
 
     return (
-      <div className="site-card-wrapper">
+      <div className='site-card-wrapper'>
         <Row gutter={[20, 20]} style={siteCardStyle}>
           {contents}
         </Row>
