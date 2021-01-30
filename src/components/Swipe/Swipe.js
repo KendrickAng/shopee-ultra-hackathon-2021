@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import TinderCard from 'react-tinder-card';
 import { Container } from './common/Container';
-import { Card, Button, Typography, Space } from 'antd';
+import {Card, Button, Typography, Space, List} from 'antd';
 import { HeartTwoTone, CloseCircleTwoTone } from '@ant-design/icons';
 import './Swipe.css';
 import {DIR} from "../../helpers/Swipe";
@@ -107,7 +107,11 @@ const Swipe = () => {
                                 >
                                     <Card.Meta
                                         title={recipe.title}
-                                        description="This is the descriptionThis is the descriptionThis is the description is the descriptionThis is the descriptionThis is the descriptionThis is the descriptionThis is the descriptionThis is the descriptionThis is the descriptionThis is the descriptionThis is the descriptionThis is the descriptionThis is the descriptionThis is the descriptionThis is the descriptionThis is the descriptionThis is the descriptionThis is the descriptionThis is the descriptionThis is the descriptionThis is the descriptionThis is the descriptionThis is the descriptionThis is the descriptionThis is the description"
+                                        description={
+                                            <List>
+                                                {recipe.steps.split('\n').map(str => <List.Item>{str}</List.Item>)}
+                                            </List>
+                                        }
                                     />
                                 </Card>
                             </TinderCard>
