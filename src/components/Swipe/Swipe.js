@@ -1,10 +1,11 @@
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import TinderCard from 'react-tinder-card';
 import { Container } from './common/Container';
 import { Card, Button, Typography, Space } from 'antd';
 import { HeartTwoTone, CloseCircleTwoTone } from '@ant-design/icons';
 import './Swipe.css';
 import {DIR} from "../../helpers/Swipe";
+import {SET_TITLE} from "../../helpers/constants";
 
 const { Paragraph } = Typography;
 
@@ -68,6 +69,13 @@ const styles = {
 const Swipe = () => {
     const [recipes, setRecipes] = useState(recipesDb);
     const [lastChoice, setLastChoice] = useState("");
+
+    useEffect(() => {
+        store.dispatch({
+            type: SET_TITLE,
+            payload: "Recipes"
+        })
+    }, [])
 
     const childRefs = useMemo(() => {
         return Array(recipes.length).fill(0).map(i => React.createRef())
