@@ -1,3 +1,4 @@
+import { Menu } from "antd";
 import React from "react";
 import { connect } from "react-redux";
 
@@ -8,7 +9,7 @@ const mapStateToProps = state => {
 };
 
 const ConnectedNavTitle = ({ navTitle }) => (
-  <h2>{ navTitle }</h2>
+    <Menu.Item><b><center>{ navTitle }</center></b></Menu.Item>
 );
 
 const NavTitle = connect(mapStateToProps)(ConnectedNavTitle);

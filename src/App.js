@@ -5,7 +5,7 @@ import './App.css';
 import store from './helpers/store';
 import { setTitle } from './helpers/actions';
 
-import Layout from './components/Layout';
+import SiteLayout from './components/SiteLayout';
 import Main from './components/Main';
 
 window.store = store;
@@ -15,11 +15,11 @@ class App extends Component {
     render() {
         return (
             <BrowserRouter>
-                <Layout>
+                <SiteLayout>
                     <Switch>
                         <Route exact path='/' component={Main} />
                     </Switch>
-                </Layout>
+                </SiteLayout>
             </BrowserRouter>
         );
     }
