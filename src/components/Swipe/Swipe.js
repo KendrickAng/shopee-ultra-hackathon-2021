@@ -1,8 +1,8 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import TinderCard from './common/ReactTinderCard';
 import { Container } from './common/Container';
-import {Card, Button, Typography, Space, List} from 'antd';
-import { HeartTwoTone, CloseCircleTwoTone } from '@ant-design/icons';
+import {Card, Button, Typography, Space, List, Modal} from 'antd';
+import { HeartTwoTone, CloseCircleTwoTone, FilterTwoTone } from '@ant-design/icons';
 import './Swipe.css';
 import {DIR} from "../../helpers/Swipe";
 import {SET_TITLE} from "../../helpers/constants";
@@ -53,6 +53,7 @@ const styles = {
 }
 
 const Swipe = () => {
+    const [isFiltersOpen, setFiltersOpen] = useState(false);
     const [recipes, setRecipes] = useState(recipesDb);
     const [lastChoice, setLastChoice] = useState("");
 
@@ -99,48 +100,65 @@ const Swipe = () => {
 
     return (
         <Container>
-                <div style={styles.cardContainer}>
-                    {recipes.map((recipe, idx) => {
-                        return (
-                            <TinderCard ref={childRefs[idx]}
-                                        className='swipe'
-                                        key={recipe.id}
-                                        onSwipe={(dir) => handleSwipe(dir, recipe)}
-                                        onCardLeftScreen={() => outOfFrame(recipe.id)}
+            <div style={styles.cardContainer}>
+                {recipes.map((recipe, idx) => {
+                    return (
+                        <TinderCard ref={childRefs[idx]}
+                                    className='swipe'
+                                    key={recipe.id}
+                                    onSwipe={(dir) => handleSwipe(dir, recipe)}
+                                    onCardLeftScreen={() => outOfFrame(recipe.id)}
+                        >
+                            <Card bodyStyle={styles.cardBody}
+                                  cover={
+                                      <div style={{...styles.card, backgroundImage: 'url(' + recipe.image + ')'}}/>
+                                  }
                             >
-                                <Card bodyStyle={styles.cardBody}
-                                      cover={
-                                          <div style={{...styles.card, backgroundImage: 'url(' + recipe.image + ')'}}/>
-                                      }
-                                >
-                                    <Card.Meta
-                                        title={recipe.title}
-                                        description={
-                                            <List>
-                                                {recipe.steps.split('\n').map(str => <List.Item>{str}</List.Item>)}
-                                            </List>
-                                        }
-                                    />
-                                </Card>
-                            </TinderCard>
-                        )
-                    })}
-                </div>
-                <Space style={styles.btnRow} align="center">
-                    <Button icon={<CloseCircleTwoTone style={styles.btnIcon}/>}
-                            style={styles.btn}
-                            shape="circle"
-                            size="large"
-                            onClick={() => swipe(DIR.LEFT)}/>
-                    <Button icon={<HeartTwoTone style={styles.btnIcon} twoToneColor="#eb2f96"/>}
-                            style={styles.btn}
-                            shape="circle"
-                            size="large"
-                            onClick={() => swipe(DIR.RIGHT)}/>
-                </Space>
-                <Paragraph>
-                    {lastChoice}
-                </Paragraph>
+                                <Card.Meta
+                                    title={recipe.title}
+                                    description={
+                                        <List>
+                                            {recipe.steps.split('\n').map(str => <List.Item>{str}</List.Item>)}
+                                        </List>
+                                    }
+                                />
+                            </Card>
+                        </TinderCard>
+                    )
+                })}
+            </div>
+            <Space style={styles.btnRow} align="center">
+                <Button icon={<CloseCircleTwoTone style={styles.btnIcon}/>}
+                        style={styles.btn}
+                        shape="circle"
+                        size="large"
+                        onClick={() => swipe(DIR.LEFT)}/>
+                <Button icon={<FilterTwoTone style={styles.btnIcon} twoToneColor="#a1a1a1"/>}
+                        style={styles.btn}
+                        shape="circle"
+                        size="large"
+                        onClick={() => setFiltersOpen(!isFiltersOpen)}/>
+                <Button icon={<HeartTwoTone style={styles.btnIcon} twoToneColor="#eb2f96"/>}
+                        style={styles.btn}
+                        shape="circle"
+                        size="large"
+                        onClick={() => swipe(DIR.RIGHT)}/>
+            </Space>
+            <Paragraph>
+                {lastChoice}
+            </Paragraph>
+
+            {/*Modal*/}
+            <Modal
+                visible={isFiltersOpen}
+                title="Title"
+            >
+                <p>Some contents...</p>
+                <p>Some contents...</p>
+                <p>Some contents...</p>
+                <p>Some contents...</p>
+                <p>Some contents...</p>
+            </Modal>
         </Container>
     )
 }
