@@ -90,15 +90,20 @@ render() {
                     );
                 })}
             </Card>
-          <Button>
-
-          </Button>
+            <Button type="primary" style ={butStyle}>View List</Button>
           </Col>
       </div>
   );
 }
 }
 
+const butStyle ={
+  margin: '2px',
+  padding: '2px',
+  align: 'middle',
+  background: "#EE4D2D",
+  hoverable: "true",
+}
 const colStyle ={
   height: "350px"
 }
