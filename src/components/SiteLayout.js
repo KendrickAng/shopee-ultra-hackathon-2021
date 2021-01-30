@@ -10,12 +10,15 @@ const { Header, Content, Footer } = Layout;
 class SiteLayout extends Component {
     render() {
         return (
-            <Layout className="layout">
-                <Menu style={{ "background-color": "#EE4D2D", "color": "#ffffff" }} mode="horizontal">
+            <Layout className="layout" style={{ "padding-top": "55px"}}>
+                <Menu
+                    style={{ "background-color": "#EE4D2D", "color": "#ffffff", "font-size": "130%", "position": "fixed", "top": 0, "right": 0, "left": 0, "z-index": "1900" }}
+                    mode="horizontal"
+                >
                     <Row style={{ padding: '0 2em' }}>
-                        <Col span={8}>{ this.props.location.pathname != '/' && <Menu.Item icon={<ArrowLeftOutlined />} onClick={this.props.history.goBack}> Back</Menu.Item> }</Col>
-                        <Col span={8}><NavTitle /></Col>
-                        <Col span={8}></Col>
+                        <Col span={3}>{ this.props.location.pathname != '/' && <Menu.Item icon={<ArrowLeftOutlined />} onClick={this.props.history.goBack}></Menu.Item> }</Col>
+                        <Col flex="auto"><NavTitle /></Col>
+                        <Col span={3}></Col>
                     </Row>
                 </Menu>
                 <Content style={{ padding: '0 2em' }}>
