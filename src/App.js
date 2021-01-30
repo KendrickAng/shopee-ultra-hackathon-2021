@@ -12,6 +12,7 @@ import List from "./components/List";
 import SavedRecipes from "./components/SavedRecipes";
 import Steps from "./components/Steps";
 import Browse from "./components/Browse";
+import Cart from "./components/Cart";
 
 window.store = store;
 window.setTitle = setTitle;
@@ -27,6 +28,7 @@ class App extends Component {
             <Route path="/shop/:id" component={List} />
             <Route path="/view/:id" component={Steps} />
             <Route exact path="/browse" component={Browse} />
+            <Route path="/cart" component={Cart} />
           </Switch>
         </SiteLayout>
       </BrowserRouter>
