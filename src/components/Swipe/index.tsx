@@ -1,35 +1,22 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import TinderCard from './common/ReactTinderCard';
-import {Container} from './common/Container';
-import {Card, Button, Typography, Space, List, Modal} from 'antd';
-import {HeartTwoTone, CloseCircleTwoTone, FilterTwoTone} from '@ant-design/icons';
+import { Container } from './common/Container';
+import {Card, Button, Typography, Space, List, Modal, Row, Col} from 'antd';
+import { HeartTwoTone, CloseCircleTwoTone, FilterTwoTone } from '@ant-design/icons';
 import './Swipe.css';
 import {DIR} from "../../helpers/Swipe";
-import store from '../../helpers/store';
-import recipesDb from 'data/recipes.json'
 import {SET_TITLE} from "../../helpers/constants";
+import recipesDb from '../../data/recipes.json';
+import store from '../../helpers/store';
+import {FilterButton} from "./common/FilterButton";
 
-const {Paragraph} = Typography;
+const { Paragraph } = Typography;
 
 // TODO temporary test local storage
-const localStorage: any = {
+const localStorage = {
     selected: [],
     rejected: [],
 }
-
-type Recipe = {
-    id: number,
-    title: string,
-    category: string,
-    ingredients: any,
-    steps: string,
-    image: string,
-}
-
-type Direction = 'left' | 'right' | 'up' | 'down';
 
 const styles = {
     cardContainer: {
@@ -67,6 +54,7 @@ const styles = {
 }
 
 const Swipe = () => {
+    const [filters, setFilters] = useState({});
     const [isFiltersOpen, setFiltersOpen] = useState(false);
     const [recipes, setRecipes] = useState(recipesDb);
     const [lastChoice, setLastChoice] = useState("");
@@ -83,8 +71,8 @@ const Swipe = () => {
         return Array(recipes.length).fill(0).map(i => React.createRef())
     }, []);
 
-    const handleSwipe = (dir: Direction, recipe: Recipe) => {
-        switch (dir) {
+    const handleSwipe = (dir, recipe) => {
+        switch(dir) {
             case DIR.LEFT:
                 localStorage.rejected.push(recipe.id);
                 setLastChoice(`Rejected ${recipe.title}`);
@@ -99,11 +87,11 @@ const Swipe = () => {
         console.log(localStorage)
     };
 
-    const outOfFrame = (rid: number) => {
+    const outOfFrame =(rid) => {
         setRecipes(recipes.filter(r => r.id !== rid));
     };
 
-    const swipe = (dir: Direction) => {
+    const swipe = (dir) => {
         const recipesLeft = recipes.filter(r => !localStorage.rejected.includes(r.id));
         if (recipesLeft.length > 0) {
             const recipeToRemove = recipesLeft[recipesLeft.length - 1];
@@ -115,7 +103,7 @@ const Swipe = () => {
     return (
         <Container>
             <div style={styles.cardContainer}>
-                {recipes.map((recipe, idx) => {
+                {recipes.filter(r => !filters[r.category]).map((recipe, idx) => {
                     return (
                         <TinderCard ref={childRefs[idx]}
                                     className='swipe'
@@ -132,8 +120,7 @@ const Swipe = () => {
                                     title={recipe.title}
                                     description={
                                         <List>
-                                            {recipe.steps.split('\n').map(str => <List.Item
-                                                key={str}>{str}</List.Item>)}
+                                            {recipe.steps.split('\n').map(str => <List.Item>{str}</List.Item>)}
                                         </List>
                                     }
                                 />
@@ -170,14 +157,16 @@ const Swipe = () => {
                 onCancel={() => setFiltersOpen(false)}
                 title="Title"
             >
-                <p>Some contents...</p>
-                <p>Some contents...</p>
-                <p>Some contents...</p>
-                <p>Some contents...</p>
-                <p>Some contents...</p>
+                <Row>
+                    {[...new Set(recipes.map(r => r.category))].map((category) => {
+                        return <Col span={12}>
+                            <FilterButton category={category} filters={filters} setFilters={setFilters} />
+                        </Col>
+                    })}
+                </Row>
             </Modal>
         </Container>
     )
 }
 
-export {Swipe};
+export { Swipe };
