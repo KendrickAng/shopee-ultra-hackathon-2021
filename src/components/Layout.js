@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 
+import NavTitle from './NavTitle';
+
 class Layout extends Component {
     render() {
         return (
             <div>
-                <h2>Header</h2>
+                <NavTitle />
                 <p>{this.props.children}</p>
             </div>
         );
