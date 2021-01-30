@@ -26,11 +26,8 @@ class SiteLayout extends Component {
         >
           <Row style={{ padding: "0 2em" }}>
             <Col span={3}>
-              {this.props.location.pathname != "/" && (
-                <Menu.Item
-                  icon={<ArrowLeftOutlined />}
-                  onClick={this.props.history.goBack}
-                ></Menu.Item>
+              {this.props.location.pathname !== "/" && (
+                <Menu.Item icon={<ArrowLeftOutlined/>} onClick={this.props.history.goBack}/>
               )}
             </Col>
             <Col flex="auto">

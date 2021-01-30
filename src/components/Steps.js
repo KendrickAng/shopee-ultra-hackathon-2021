@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { SET_TITLE } from '../helpers/constants';
 import store from '../helpers/store';
 import Recipes from '../data/recipes.json';
-import { Checkbox, Card, Row, Col, Badge,Image, Button } from 'antd';
+import { Card, Row, Col, Button } from 'antd';
 import FittedImage from 'react-fitted-image';
 
 class Steps extends Component {
@@ -12,9 +12,8 @@ class Steps extends Component {
         id: 0,
         recipe: null
     }
-
     this.state.id = this.props.match.params.id;
-    const recipe = Recipes.find((x) => x.id == this.state.id);
+    const recipe = Recipes.find(x => x.id == this.state.id);
 
     if (recipe != null) {
         this.state.recipe = recipe;
