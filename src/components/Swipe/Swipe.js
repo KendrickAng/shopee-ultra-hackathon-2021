@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import TinderCard from 'react-tinder-card';
+import TinderCard from './common/ReactTinderCard';
 import { Container } from './common/Container';
 import {Card, Button, Typography, Space, List} from 'antd';
 import { HeartTwoTone, CloseCircleTwoTone } from '@ant-design/icons';
@@ -22,7 +22,7 @@ const styles = {
         position: 'relative',
         width: '90vw',
         maxWidth: '500px',
-        height: '80vh',
+        height: '70vh',
     },
     card: {
         backgroundSize: 'cover',
@@ -41,6 +41,14 @@ const styles = {
         bottom: '20px',
         transform: 'translate(-50%, -50%)',
         margin: '0 auto',
+    },
+    btn: {
+        height: 80,
+        width: 80,
+    },
+    btnIcon: {
+        fontSize: '45px',
+        marginTop: 3,
     }
 }
 
@@ -119,11 +127,13 @@ const Swipe = () => {
                     })}
                 </div>
                 <Space style={styles.btnRow} align="center">
-                    <Button icon={<CloseCircleTwoTone/>}
+                    <Button icon={<CloseCircleTwoTone style={styles.btnIcon}/>}
+                            style={styles.btn}
                             shape="circle"
                             size="large"
                             onClick={() => swipe(DIR.LEFT)}/>
-                    <Button icon={<HeartTwoTone twoToneColor="#eb2f96"/>}
+                    <Button icon={<HeartTwoTone style={styles.btnIcon} twoToneColor="#eb2f96"/>}
+                            style={styles.btn}
                             shape="circle"
                             size="large"
                             onClick={() => swipe(DIR.RIGHT)}/>
